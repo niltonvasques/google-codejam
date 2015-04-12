@@ -181,6 +181,25 @@ end
 #puts ( i * j ) * k
 #puts minusI * k
 
+def find(dijkstra_arr, m, size)
+  # FIND I
+  size.times do |j|
+    if sub_mult(dijkstra_arr, m, 0, j) == 'i'
+      # FIND K
+      (size-1).downto(j+2) do |i| #k
+        if sub_mult(dijkstra_arr, m, i, size-1) == 'k'
+          #puts "testing J in #{j+1}~#{i-1}"
+          # FIND J
+          if sub_mult(dijkstra_arr, m, j+1, i-1) == 'j'
+            return true
+          end
+        end
+      end
+    end
+  end
+  return false
+end
+
 T = gets.chomp.to_i
 
 T.times do |i|
@@ -195,7 +214,6 @@ T.times do |i|
   dijkstra_arr = str.map{ |c| Dijkstra.new(c) }
 
   size = lx[0]*lx[1]
-
   m = build_matrix(size, size)
 
   #p dijkstra_arr[0]
@@ -205,9 +223,13 @@ T.times do |i|
   #p str
   if ((str0 =~ /i/ && str0 =~ /j/) || (str0 =~ /i/ && str0 =~ /k/) || (str0 =~ /j/ && str0 =~ /k/))
     #p find_neutros(dijkstra_arr, m, lx.first)
-    if find_ijk(dijkstra_arr, m, size)
+    #if find_ijk(dijkstra_arr, m, size)
+    #  result = "YES"
+    #end
+    if find(dijkstra_arr, m, size)
       result = "YES"
     end
+    # FIND I
   end
 
   #sub_mult(dijkstra_arr, m, 0, size-1)
